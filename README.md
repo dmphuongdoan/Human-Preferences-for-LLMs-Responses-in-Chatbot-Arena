@@ -28,13 +28,12 @@ The project consists of two separate reports:
 ├── 01_dataprep.R            # download, parse and filter the data; build style features
 ├── 02_Supervised.R          # supervised models, ranking, bootstrap, figures
 ├── 03_Unsupervised.R        # TF-IDF, LSA, clustering, link to preferences, figures
-├── report_supervised.Rmd    # Report 1 (R Markdown source)
-├── report_unsupervised.Rmd  # Report 2 (R Markdown source)
-├── reports/
-│   ├── report_supervised.pdf
-│   └── report_unsupervised.pdf
-└── figures/                 # PNG figures produced by the scripts
+└── reports/
+    ├── report_supervised.pdf    # Report 1
+    └── report_unsupervised.pdf  # Report 2
 ```
+
+The R code is also printed in the appendix of each report.
 
 ## How to reproduce
 
@@ -43,30 +42,30 @@ The project consists of two separate reports:
    ```r
    install.packages(c("data.table", "jsonlite", "stringr", "glmnet", "ranger",
                       "text2vec", "stopwords", "irlba", "cluster", "mclust",
-                      "Matrix", "knitr", "rmarkdown"))
+                      "Matrix"))
    ```
 
-2. Run the scripts in order from the project folder:
+2. Download `train.csv` from Kaggle (see **Data** below) and put it in the project folder.
+
+3. Run the scripts in order from the project folder:
 
    ```r
-   source("01_dataprep.R")     # downloads train.csv (~184 MB) and writes arena_clean.rds
+   source("01_dataprep.R")     # reads train.csv and writes arena_clean.rds
    source("02_Supervised.R")   # writes results_supervised.rds and figures
    source("03_Unsupervised.R") # writes results_unsupervised.rds and figures
    ```
 
-3. Knit the reports (a LaTeX installation is needed, e.g. `tinytex`):
-
-   ```r
-   rmarkdown::render("report_supervised.Rmd")
-   rmarkdown::render("report_unsupervised.Rmd")
-   ```
+   The figures (`fig_*.png`) are saved in the project folder.
 
 Random seeds are fixed (`set.seed(2026)`), so the results are reproducible. The bootstrap and clustering steps take several minutes.
 
 ## Data
 
-The raw data are **not included** in this repository. `01_dataprep.R` downloads them automatically from Hugging Face:
-[lmarena-ai/arena-human-preference-55k](https://huggingface.co/datasets/lmarena-ai/arena-human-preference-55k). This dataset was originally released as the training data of the Kaggle competition [LMSYS – Chatbot Arena Human Preference Predictions](https://www.kaggle.com/competitions/lmsys-chatbot-arena).
+The raw data are **not included** in this repository. They come from the Kaggle competition
+[LMSYS – Chatbot Arena Human Preference Predictions](https://www.kaggle.com/competitions/lmsys-chatbot-arena/data).
+Download `train.csv` (57,477 battles, ~184 MB) from the competition's *Data* tab; this requires a Kaggle account and accepting the competition rules.
+
+If `train.csv` is not found in the project folder, `01_dataprep.R` downloads the same data from Hugging Face ([lmarena-ai/arena-human-preference-55k](https://huggingface.co/datasets/lmarena-ai/arena-human-preference-55k)).
 
 After filtering (single-turn battles, mainly ASCII text, models with at least 200 battles), the analysis uses 49,438 battles, of which 33,995 are non-tied.
 
