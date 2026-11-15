@@ -1,0 +1,25 @@
+# Raw and intermediate data (large; recreated by the scripts)
+*.csv
+*.rds
+*.RData
+*.rda
+
+# R session files
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+
+# R Markdown / LaTeX build files
+*_files/
+*_cache/
+*.tex
+*.log
+*.aux
+*.out
+*.toc
+
+# OS files
+.DS_Store
+Thumbs.db
